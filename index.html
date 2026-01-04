@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Digital Services - Web Design, AI Content & More</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">✨ ZhilakX</div>
+        <button class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#features">Why Us</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#features">Why Us</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Transform Your Brand with Creative Digital Solutions</h1>
+                <p>Premium web design, AI-powered content creation, stunning thumbnails, and eye-catching ad posters—all
+                    crafted to elevate your online presence.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('services')">Explore Services</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('contact')">Get Started Today</button>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 20L8 13M15 20L22 13M15 20V5" stroke="#00d9ff" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3>Web Design</h3>
+                    <p>Custom, responsive websites that convert visitors into customers. Modern design meets
+                        functionality.</p>
+                    <a href="webdev.html" class="btn btn-secondary" style="margin-top:1rem; display:inline-block;">
+                        More about Web Design
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎬</div>
+                    <h3>Thumbnail Creation</h3>
+                    <p>Eye-catching video thumbnails designed to maximize clicks and engagement across platforms.</p>
+                    <a href="thumbnail.html" class="btn btn-secondary" style="margin-top:1rem; display:inline-block;">
+                        More about Thumbnails
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">✍️</div>
+                    <h3>AI Content Generation</h3>
+                    <p>SEO-optimized content, blog posts, scripts, and copywriting powered by advanced AI technology.
+                    </p>
+                    <a href="AIg.html" class="btn btn-secondary" style="margin-top:1rem; display:inline-block;">
+                        More about AI Content
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>AI Poster Creation</h3>
+                    <p>Professional marketing posters and ad graphics designed to grab attention and drive conversions.
+                    </p>
+                    <a href="AIp.html" class="btn btn-secondary" style="margin-top:1rem; display:inline-block;">
+                        More about AI Posters
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Social Media Design</h3>
+                    <p>Branded graphics, stories, and promotional content tailored for your target audience.</p>
+                    <a href="social.html" class="btn btn-secondary" style="margin-top:1rem; display:inline-block;">
+                        More about Social Media Design
+                    </a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Brand Strategy</h3>
+                    <p>Complete brand identity packages including logos, color schemes, and visual guidelines.</p>
+                    <a href="brand.html" class="btn btn-secondary" style="margin-top:1rem; display:inline-block;">
+                        More about Brand Strategy
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <h2 class="section-title">Why Choose Us</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-number">20+</div>
+                    <h4>Projects Completed</h4>
+                    <p>Diverse portfolio across industries and niches</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">97%</div>
+                    <h4>Client Satisfaction</h4>
+                    <p>Dedicated to exceeding expectations every time</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">24/7</div>
+                    <h4>Support Available</h4>
+                    <p>Always here when you need us</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-number">100%</div>
+                    <h4>Custom Solutions</h4>
+                    <p>No templates, fully tailored to your needs</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team & About Section -->
+        <section class="team-section" id="team">
+            <div class="team-container">
+                <!-- About Story -->
+                <div class="about-intro">
+                    <h2 class="section-title">Meet Our Creative Team</h2>
+                    <p class="about-story">
+                        We're a passionate team of designers, developers, and strategists dedicated to transforming
+                        brands through cutting-edge digital solutions.
+                        With <strong>10+ years of combined experience</strong> and <strong>20+ successful
+                            projects</strong>, we've earned the trust of startups,
+                        agencies, and enterprises worldwide.
+                    </p>
+                    <p class="about-story">
+                        Our mission is simple: <strong>Create digital experiences that don't just look amazing—they
+                            deliver results.</strong>
+                        We believe in collaboration, innovation, and pushing creative boundaries. Every project is an
+                        opportunity to exceed expectations.
+                    </p>
+                </div>
+
+                <!-- Team Grid -->
+                <div class="team-grid">
+                    <!-- Team Member 1 -->
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">👨‍💻</div>
+                        </div>
+                        <div class="team-content">
+                            <h3>Shivank Tripathi</h3>
+                            <p class="role">Lead Developer & Founder</p>
+                            <p class="bio">Front End developer with expertise in JS, Typescript, and Three.js.
+                                Specializes in building high-performance, interactive web experiences.</p>
+                            <div class="specializations">
+                                <span class="spec-tag">Web Development</span>
+                                <span class="spec-tag">Front End</span>
+                                <span class="spec-tag">3D Web</span>
+                            </div>
+                            <div class="experience-badge">2+ Years</div>
+                            <div class="social-icons">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 2 -->
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">👩‍🎨</div>
+                        </div>
+                        <div class="team-content">
+                            <h3>Krishna Y.</h3>
+                            <p class="role">Lead Designer </p>
+                            <p class="bio">Creative director with a passion for UI/UX design and brand identity.
+                                Award-winning designer who brings visions to life through elegant, user-centered design.
+                            </p>
+                            <div class="specializations">
+                                <span class="spec-tag">UI/UX Design</span>
+                                <span class="spec-tag">Branding</span>
+                                <span class="spec-tag">Creative Direction</span>
+                            </div>
+                            <div class="experience-badge">3+ Years</div>
+                            <div class="social-icons">
+                             
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 3 -->
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">👨‍🎬</div>
+                        </div>
+                        <div class="team-content">
+                            <h3>Achyuta Tripathi</h3>
+                            <p class="role">Video & Content Specialist</p>
+                            <p class="bio">Videographer and content creator specializing in thumbnails, reels, and
+                                promotional content. Knows what grabs attention and converts viewers.</p>
+                            <div class="specializations">
+                                <span class="spec-tag">Video Editing</span>
+                                <span class="spec-tag">Thumbnails</span>
+                                <span class="spec-tag">Motion Graphics</span>
+                            </div>
+                            <div class="experience-badge">3+ Years</div>
+                            <div class="social-icons">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 4 -->
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">👩‍💼</div>
+                        </div>
+                        <div class="team-content">
+                            <h3>Devyansh tripathi</h3>
+                            <p class="role">AI & Content Strategist</p>
+                            <p class="bio">Expert in AI-powered content generation and marketing strategy. Combines
+                                cutting-edge AI tools with human creativity to produce exceptional content.</p>
+                            <div class="specializations">
+                                <span class="spec-tag">AI & Automation</span>
+                                <span class="spec-tag">Content Strategy</span>
+                                <span class="spec-tag">Copywriting</span>
+                            </div>
+                            <div class="experience-badge">2 Years</div>
+                            <div class="social-icons">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Choose Us Metrics -->
+                <div class="why-choose-metrics">
+                    <h3 class="metrics-title">Why Our Team Stands Out</h3>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-number">20+</div>
+                            <p>Projects Completed</p>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-number">95%</div>
+                            <p>Client Satisfaction Rate</p>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-number">3</div>
+                            <p>Design Awards</p>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-number">4.7★</div>
+                            <p>Average Rating</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="team-cta">
+                    <h3>Ready to Work With Us?</h3>
+                    <p>Let our expert team bring your vision to life. Every project gets our full attention and creative
+                        expertise.</p>
+                    <button class="btn btn-primary" onclick="scrollToSection('contact')">Start Your Project
+                        Today</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Testimonials Section -->
+        <section class="testimonials" id="testimonials">
+            <h2 class="section-title">Client Testimonials</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"The website they created completely transformed our online presence. Our conversion rate
+                        increased by 250%!"</p>
+                    <div class="testimonial-author">- Madhav S., E-commerce Business</div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"The AI-generated content is incredibly high-quality and saves us hours every week. Highly
+                        recommended!"</p>
+                    <div class="testimonial-author">-  BR. sharma, Content Creator</div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Their thumbnail designs have taken our YouTube channel to the next level. Engagement is through
+                        the roof!"</p>
+                    <div class="testimonial-author">- Emily Kr., YouTuber</div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Professional, responsive, and creative. They understood our vision perfectly and delivered
+                        beyond expectations."</p>
+                    <div class="testimonial-author">- David, Marketing Agency</div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+        <!-- Process Section -->
+        <section class="process-section" id="process">
+            <div class="process-container">
+                <h2 class="section-title">Our Creative Process</h2>
+                <p class="section-subtitle">A structured, collaborative approach to delivering exceptional results. See
+                    how we bring your vision to life.</p>
+
+                <!-- Service Switcher -->
+                <div class="service-tabs">
+                    <button class="tab-btn active" data-service="web-design">
+                        <span class="tab-icon">🎨</span>
+                        <span class="tab-label">Web Design</span>
+                    </button>
+                    <button class="tab-btn" data-service="thumbnails">
+                        <span class="tab-icon">🎬</span>
+                        <span class="tab-label">Thumbnails</span>
+                    </button>
+                    <button class="tab-btn" data-service="ai-content">
+                        <span class="tab-icon">✍️</span>
+                        <span class="tab-label">AI Content</span>
+                    </button>
+                    <button class="tab-btn" data-service="brand-strategy">
+                        <span class="tab-icon">📊</span>
+                        <span class="tab-label">Brand Strategy</span>
+                    </button>
+                </div>
+
+                <!-- Timeline Container -->
+                <div class="timeline-wrapper">
+                    <!-- Web Design Process -->
+                    <div class="timeline-content" data-service="web-design" style="display: block;">
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">1</div>
+                                    <div class="step-info">
+                                        <h3>Discovery & Analysis</h3>
+                                        <span class="duration">3-5 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>We learn about your business:</strong></p>
+                                    <ul>
+                                        <li>Business goals and vision</li>
+                                        <li>Target audience analysis</li>
+                                        <li>Competitor research</li>
+                                        <li>Current pain points</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Discovery document & project
+                                        brief</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">2</div>
+                                    <div class="step-info">
+                                        <h3>Strategy & Wireframing</h3>
+                                        <span class="duration">5-7 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Plan the user experience:</strong></p>
+                                    <ul>
+                                        <li>Site structure and navigation</li>
+                                        <li>Wireframes for key pages</li>
+                                        <li>User flow mapping</li>
+                                        <li>Information architecture</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Wireframes & sitemap</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">3</div>
+                                    <div class="step-info">
+                                        <h3>Design & Creative</h3>
+                                        <span class="duration">7-10 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Create stunning visuals:</strong></p>
+                                    <ul>
+                                        <li>Mockup designs for all pages</li>
+                                        <li>Visual branding and colors</li>
+                                        <li>Interactive elements design</li>
+                                        <li>Mobile responsive layouts</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Design mockups in Figma</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">4</div>
+                                    <div class="step-info">
+                                        <h3>Development & Build</h3>
+                                        <span class="duration">10-14 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Code your website:</strong></p>
+                                    <ul>
+                                        <li>Frontend development (HTML/CSS/JS)</li>
+                                        <li>Backend setup if needed</li>
+                                        <li>Database configuration</li>
+                                        <li>CMS integration (WordPress, etc.)</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Live staging website</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">5</div>
+                                    <div class="step-info">
+                                        <h3>Testing & Refinement</h3>
+                                        <span class="duration">3-5 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Ensure perfection:</strong></p>
+                                    <ul>
+                                        <li>Cross-browser testing</li>
+                                        <li>Mobile responsiveness check</li>
+                                        <li>Performance optimization</li>
+                                        <li>Your feedback & revisions (3 rounds)</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Refined, tested website</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">6</div>
+                                    <div class="step-info">
+                                        <h3>Launch & Support</h3>
+                                        <span class="duration">1-2 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Go live and beyond:</strong></p>
+                                    <ul>
+                                        <li>Domain setup and SSL certificate</li>
+                                        <li>Live deployment</li>
+                                        <li>30 days free post-launch support</li>
+                                        <li>Analytics setup (Google Analytics)</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Live website + support</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-summary">
+                            <p>⏱️ <strong>Total Timeline:</strong> 3-6 weeks from start to launch</p>
+                        </div>
+                    </div>
+
+                    <!-- Thumbnails Process -->
+                    <div class="timeline-content" data-service="thumbnails" style="display: none;">
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">1</div>
+                                    <div class="step-info">
+                                        <h3>Brief & Concept</h3>
+                                        <span class="duration">1-2 hours</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Understand your content:</strong></p>
+                                    <ul>
+                                        <li>Video title and topic</li>
+                                        <li>Target audience demographics</li>
+                                        <li>Brand colors and style</li>
+                                        <li>Competitor thumbnail analysis</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Thumbnail concepts</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">2</div>
+                                    <div class="step-info">
+                                        <h3>Design & Creation</h3>
+                                        <span class="duration">2-4 hours</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Create eye-catching designs:</strong></p>
+                                    <ul>
+                                        <li>3-5 thumbnail design variations</li>
+                                        <li>Bold typography and colors</li>
+                                        <li>High-contrast elements</li>
+                                        <li>Mobile-optimized text</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> 3-5 design options</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">3</div>
+                                    <div class="step-info">
+                                        <h3>Refinement & Final</h3>
+                                        <span class="duration">1-2 hours</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Perfect your choice:</strong></p>
+                                    <ul>
+                                        <li>Select preferred design</li>
+                                        <li>Minor adjustments</li>
+                                        <li>Export in all formats</li>
+                                        <li>Ready to upload to YouTube</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Final PNG files</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-summary">
+                            <p>⏱️ <strong>Total Timeline:</strong> 1-3 days per thumbnail batch</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Content Process -->
+                    <div class="timeline-content" data-service="ai-content" style="display: none;">
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">1</div>
+                                    <div class="step-info">
+                                        <h3>Topic & Research</h3>
+                                        <span class="duration">1-2 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Understand your needs:</strong></p>
+                                    <ul>
+                                        <li>Content topics and keywords</li>
+                                        <li>Target audience details</li>
+                                        <li>SEO requirements</li>
+                                        <li>Brand voice guidelines</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Content strategy brief</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">2</div>
+                                    <div class="step-info">
+                                        <h3>AI Generation & Research</h3>
+                                        <span class="duration">2-3 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Generate quality content:</strong></p>
+                                    <ul>
+                                        <li>AI-powered content drafts</li>
+                                        <li>SEO keyword optimization</li>
+                                        <li>Research and fact-checking</li>
+                                        <li>Multiple versions to choose from</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Content drafts</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">3</div>
+                                    <div class="step-info">
+                                        <h3>Editing & Polish</h3>
+                                        <span class="duration">1-2 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Refine to perfection:</strong></p>
+                                    <ul>
+                                        <li>Human editing and review</li>
+                                        <li>Brand voice alignment</li>
+                                        <li>Grammar and tone adjustments</li>
+                                        <li>Final approval rounds</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Polished content ready to
+                                        publish</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-summary">
+                            <p>⏱️ <strong>Total Timeline:</strong> 1-2 weeks per content batch</p>
+                        </div>
+                    </div>
+
+                    <!-- Brand Strategy Process -->
+                    <div class="timeline-content" data-service="brand-strategy" style="display: none;">
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">1</div>
+                                    <div class="step-info">
+                                        <h3>Discovery Workshop</h3>
+                                        <span class="duration">2-3 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Deep dive into your brand:</strong></p>
+                                    <ul>
+                                        <li>Brand vision and mission</li>
+                                        <li>Target audience profiling</li>
+                                        <li>Competitor analysis</li>
+                                        <li>Unique value proposition</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Discovery report</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">2</div>
+                                    <div class="step-info">
+                                        <h3>Strategy Development</h3>
+                                        <span class="duration">3-5 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Create your roadmap:</strong></p>
+                                    <ul>
+                                        <li>Brand positioning statement</li>
+                                        <li>Core values definition</li>
+                                        <li>Brand messaging pillars</li>
+                                        <li>Messaging framework</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Strategy document</p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">3</div>
+                                    <div class="step-info">
+                                        <h3>Visual Identity Design</h3>
+                                        <span class="duration">5-7 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Design your visual brand:</strong></p>
+                                    <ul>
+                                        <li>Logo concepts (3-5 options)</li>
+                                        <li>Color palette development</li>
+                                        <li>Typography selection</li>
+                                        <li>Visual style guide</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Logo files and visual assets
+                                    </p>
+                                </div>
+                                <div class="step-connector"></div>
+                            </div>
+
+                            <div class="timeline-step">
+                                <div class="step-header">
+                                    <div class="step-number">4</div>
+                                    <div class="step-info">
+                                        <h3>Guidelines & Documentation</h3>
+                                        <span class="duration">3-4 days</span>
+                                    </div>
+                                </div>
+                                <div class="step-details">
+                                    <p><strong>Create your brand manual:</strong></p>
+                                    <ul>
+                                        <li>Brand guidelines document</li>
+                                        <li>Logo usage rules</li>
+                                        <li>Color codes (Hex, RGB, CMYK)</li>
+                                        <li>Typography guidelines</li>
+                                    </ul>
+                                    <p class="deliverable">📦 <strong>Deliverable:</strong> Comprehensive brand
+                                        guidelines (50+ pages)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-summary">
+                            <p>⏱️ <strong>Total Timeline:</strong> 2-4 weeks for complete brand strategy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Page Section -->
+        <section class="contact-page" id="contact">
+            <div class="contact-container">
+                <h2 class="section-title">Get In Touch With Us</h2>
+                <p class="contact-intro">Have a project in mind? We'd love to hear from you. Fill out the form below and
+                    our team will get back to you within 24 hours.</p>
+
+                <div class="contact-content">
+                    <!-- Contact Form -->
+                    <div class="contact-form-wrapper">
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" required placeholder="Your name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required placeholder="your@email.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="service">Service Interested In *</label>
+                                <select id="service" name="service" required>
+                                    <option value="">-- Select a service --</option>
+                                    <option value="web-design">Web Design</option>
+                                    <option value="thumbnails">Thumbnail Creation</option>
+                                    <option value="ai-content">AI Content Generation</option>
+                                    <option value="ai-poster">AI Poster Creation</option>
+                                    <option value="social-media">Social Media Design</option>
+                                    <option value="brand-strategy">Brand Strategy</option>
+                                    <option value="other">Other Services</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="budget">Budget Range</label>
+                                <select id="budget" name="budget">
+                                    <option value="">-- Select budget --</option>
+                                    <option value="5k-10k">₹5,000 - ₹10,000</option>
+                                    <option value="10k-25k">₹10,000 - ₹25,000</option>
+                                    <option value="25k-50k">₹25,000 - ₹50,000</option>
+                                    <option value="50k-100k">₹50,000 - ₹1,00,000</option>
+                                    <option value="100k+">₹1,00,000+</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Project Details *</label>
+                                <textarea id="message" name="message" required
+                                    placeholder="Tell us about your project, goals, and timeline..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
+                            <p class="form-note">✓ We reply within 24 hours</p>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="contact-info">
+                        <div class="info-box">
+                            <div class="info-icon">📧</div>
+                            <h4>Email</h4>
+                            <p>shivanktripathi45r@gmail.com</p>
+                            <p class="sub-text">We respond within 24 hours</p>
+                        </div>
+
+                        <div class="info-box">
+                            <div class="info-icon">📱</div>
+                            <h4>Phone</h4>
+                            <p>+91 9794231802</p>
+                            <p class="sub-text">Mon-Fri, 10 AM - 6 PM IST</p>
+                        </div>
+
+                        <div class="info-box">
+                            <div class="info-icon">📍</div>
+                            <h4>Location</h4>
+                            <p>Prayagraj, Uttar Pradesh</p>
+                            <p class="sub-text">India</p>
+                        </div>
+
+                        <div class="info-box">
+                            <div class="info-icon">⏰</div>
+                            <h4>Hours</h4>
+                            <p>Mon-Fri: 10 AM - 6 PM</p>
+                            <p class="sub-text">Sat-Sun: By appointment</p>
+                        </div>
+
+                        <div class="social-links">
+                            <h4>Connect With Us</h4>
+                            <div class="socials">
+                                <a href="#" class="social-btn" title="Facebook">f</a>
+                                <a href="#" class="social-btn" title="Instagram">📷</a>
+                                <a href="#" class="social-btn" title="Twitter">𝕏</a>
+                                <a href="#" class="social-btn" title="LinkedIn">in</a>
+                                <a href="#" class="social-btn" title="YouTube">▶</a>
+                            </div>
+                        </div>
+
+                        <div class="faq-section">
+                            <h4>Quick FAQ</h4>
+                            <div class="faq-item">
+                                <p><strong>How long does a project take?</strong></p>
+                                <p>Timelines vary. A website takes 3-6 weeks, thumbnails 1-3 days, content 1-2 weeks.
+                                </p>
+                            </div>
+                            <div class="faq-item">
+                                <p><strong>Do you offer revisions?</strong></p>
+                                <p>Yes! We include 3 rounds of revisions in all our packages.</p>
+                            </div>
+                            <div class="faq-item">
+                                <p><strong>What's your payment process?</strong></p>
+                                <p>50% upfront, 50% on delivery. We accept bank transfer, UPI, and card payments.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="final-cta" id="cta">
+            <h2>Ready to Get Started?</h2>
+            <p>Your next big project is just one click away. Let's create something amazing together.</p>
+            <button class="btn btn-primary" onclick="scrollToSection('contact')">Start Your Project</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 ZhilakX. All rights reserved. | Building amazing digital experiences.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Crafted with <span style="color: var(--color-accent);">❤</span>
+            for your success</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

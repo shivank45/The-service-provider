@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Poster Creation Services - ZhilakX</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --color-bg: #0a0e27;
+            --color-surface: #1a1f3a;
+            --color-primary: #00d9ff;
+            --color-primary-hover: #00a8cc;
+            --color-accent: #ff006e;
+            --color-text: #e0e0e0;
+            --color-text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+        }
+
+        /* Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .back-home {
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Main */
+        main {
+            position: relative;
+            z-index: 10;
+            padding-top: 6rem;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 60vh;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 5rem 4rem 2rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 550px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.08);
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            border: 2px solid;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            border-color: var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 3rem 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* Poster Types */
+        .poster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .poster-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 1.6rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .poster-card:hover {
+            border-color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(0, 217, 255, 0.25);
+        }
+
+        .poster-icon {
+            font-size: 1.7rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .poster-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .poster-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--color-accent);
+            background: rgba(255, 0, 110, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .feature-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        .feature-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Use Cases */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .use-case-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 1.6rem;
+        }
+
+        .use-case-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .use-case-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Process */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .process-step {
+            position: relative;
+            padding: 1.5rem 1.4rem 1.4rem 3.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 1.3rem;
+            width: 1.6rem;
+            height: 1.6rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .process-step h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
+        }
+
+        .process-step p {
+            color: var(--color-text-secondary);
+            font-size: 0.88rem;
+        }
+
+        /* Formats */
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .format-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.4rem;
+            text-align: center;
+        }
+
+        .format-name {
+            color: var(--color-primary);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .format-size {
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            padding: 2rem 1.7rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--color-accent);
+            box-shadow: 0 20px 45px rgba(255, 0, 110, 0.35);
+        }
+
+        .pricing-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(255, 0, 110, 0.2);
+            color: var(--color-accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .pricing-price {
+            font-size: 1.6rem;
+            margin: 0.4rem 0;
+            color: var(--color-primary);
+        }
+
+        .pricing-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-list {
+            list-style: none;
+            margin: 0 0 1.5rem;
+            padding: 0;
+        }
+
+        .pricing-list li {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-list li::before {
+            content: "✓";
+            color: var(--color-primary);
+            margin-right: 0.4rem;
+        }
+
+        /* CTA */
+        .bottom-cta {
+            text-align: center;
+            padding: 4rem 2rem 5rem;
+        }
+
+        .bottom-cta p {
+            color: var(--color-text-secondary);
+            max-width: 520px;
+            margin: 0.7rem auto 1.8rem;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2.5rem 4rem;
+            text-align: center;
+            background: var(--color-bg);
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 4.5rem 2rem 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.4rem;
+            }
+
+            .section {
+                padding: 2.5rem 2rem;
+            }
+
+            nav {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            footer {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Nav -->
+    <nav>
+        <div class="logo">✨ ZhilakX</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#posters">Poster Types</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <a href="index.html#services" class="back-home">← Back to Services</a>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Professional AI Posters for Every Campaign</h1>
+                <p>Create stunning, conversion-focused marketing posters and ad graphics in minutes. From social media ads to print materials, our AI generates eye-catching designs that grab attention and drive results.</p>
+                <div class="hero-badges">
+                    <span class="badge">🎨 Professional designs</span>
+                    <span class="badge">⚡ Generated in minutes</span>
+                    <span class="badge">🎯 Conversion optimized</span>
+                    <span class="badge">🖼️ Print-ready quality</span>
+                </div>
+                <div class="hero-cta">
+                    <a href="index.html#contact" class="btn btn-primary">Create Your Posters</a>
+                    <a href="#pricing" class="btn btn-secondary">View Packages</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-card">
+                    <h3>Fast & Professional</h3>
+                    <p>No design experience needed. Our AI creates polished, professional posters that look like they were made by a design agency.</p>
+                </div>
+                <div class="hero-card">
+                    <h3>Fully Customizable</h3>
+                    <p>Share your brand colors, messaging, target audience, and style. We refine every poster until it matches your vision perfectly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Poster Types -->
+        <section class="section" id="posters">
+            <h2 class="section-title">Poster Types & Use Cases</h2>
+            <p class="section-subtitle">From digital ads to print materials, we create posters for every marketing need. All designs are fully customizable to your brand.</p>
+
+            <div class="poster-grid">
+                <div class="poster-card">
+                    <div class="poster-icon">📱</div>
+                    <h3>Social Media Ads</h3>
+                    <p>Facebook, Instagram, and TikTok ad posters designed to stop the scroll and drive clicks. Optimized for mobile viewing.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">📢</div>
+                    <h3>Product Promotions</h3>
+                    <p>Eye-catching posters highlighting your products with compelling copy, pricing, and strong CTAs to boost sales.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">🎉</div>
+                    <h3>Event Promotions</h3>
+                    <p>Vibrant posters for launches, webinars, workshops, live events, and sales. Create urgency and drive registrations.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">🎁</div>
+                    <h3>Seasonal Campaigns</h3>
+                    <p>Holiday posters, Black Friday sales, New Year offers, and seasonal promotions with timely messaging and visuals.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">💼</div>
+                    <h3>B2B/Corporate Posters</h3>
+                    <p>Professional business posters for services, B2B promotions, corporate announcements, and thought leadership.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">🎓</div>
+                    <h3>Educational Content</h3>
+                    <p>Posters for courses, certifications, webinars, workshops, and educational promotions that attract learners.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">🏥</div>
+                    <h3>Service Promotions</h3>
+                    <p>Health, fitness, wellness, beauty, and service industry posters designed to convert and build trust.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">🚀</div>
+                    <h3>Startup/Founder Posters</h3>
+                    <p>Modern, trendy posters for startups, SaaS products, and innovative businesses targeting early adopters.</p>
+                </div>
+
+                <div class="poster-card">
+                    <div class="poster-icon">📰</div>
+                    <h3>Print Materials</h3>
+                    <p>High-resolution posters for print—flyers, brochures, banners, and large-format prints ready to produce.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section">
+            <h2 class="section-title">Why Our AI Posters Stand Out</h2>
+            <p class="section-subtitle">Professional quality without the professional price tag. Our AI understands design psychology and marketing best practices.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Conversion Focused</h3>
+                    <p>Every poster is designed to drive action—clicks, sign-ups, purchases, or engagement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>On-Brand Design</h3>
+                    <p>Consistent with your visual identity, colors, fonts, and brand personality.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Generation</h3>
+                    <p>Get professional designs in minutes, not weeks. Perfect for last-minute campaigns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖼️</div>
+                    <h3>Print Ready</h3>
+                    <p>High-resolution files optimized for both digital and print distribution.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Psychology-Driven</h3>
+                    <p>Colors, layout, and messaging chosen to maximize impact and persuade viewers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">♻️</div>
+                    <h3>Unlimited Revisions</h3>
+                    <p>Keep iterating until it's perfect. No extra charge for refinements.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="section">
+            <h2 class="section-title">Perfect For Every Business Type</h2>
+
+            <div class="use-cases-grid">
+                <div class="use-case-card">
+                    <h3>🛍️ E-Commerce & Retail</h3>
+                    <p>Product promotion posters, sale announcements, and seasonal campaigns that drive traffic and boost conversions for online and offline stores.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🎬 Content Creators & YouTubers</h3>
+                    <p>Posters for collaborations, sponsorships, merchandise, and community engagement. Stand out in crowded social feeds.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>💪 Fitness & Wellness</h3>
+                    <p>Gym membership promos, class announcements, transformation stories, and motivational posters that inspire and convert.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🎓 Online Education & Courses</h3>
+                    <p>Course launch posters, webinar announcements, and enrollment campaigns that attract students and increase registrations.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🏢 B2B & Enterprise</h3>
+                    <p>Professional business posters for services, white papers, webinars, and industry events that build authority and credibility.</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🍔 Restaurants & Food Delivery</h3>
+                    <p>Menu highlights, special offers, new launch announcements, and loyalty program promotions that drive orders and engagement.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formats -->
+        <section class="section">
+            <h2 class="section-title">Available Formats & Dimensions</h2>
+            <p class="section-subtitle">We create posters in all standard sizes for digital, social media, web, and print distribution.</p>
+
+            <div class="formats-grid">
+                <div class="format-item">
+                    <div class="format-name">Instagram Posts</div>
+                    <div class="format-size">1080×1350px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">Facebook Ads</div>
+                    <div class="format-size">1200×628px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">LinkedIn Posts</div>
+                    <div class="format-size">1200×627px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">Web Banners</div>
+                    <div class="format-size">1200×400px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">Email Headers</div>
+                    <div class="format-size">600×200px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">Print (A4)</div>
+                    <div class="format-size">2480×3508px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">Print (A3)</div>
+                    <div class="format-size">3508×4961px</div>
+                </div>
+                <div class="format-item">
+                    <div class="format-name">Custom Size</div>
+                    <div class="format-size">Any dimension</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section" id="process">
+            <h2 class="section-title">Our Poster Creation Process</h2>
+            <p class="section-subtitle">Simple workflow from brief to final posters. Quick, efficient, and results-focused.</p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Share Your Vision</h3>
+                    <p>Tell us about your campaign, target audience, key message, brand colors, and style preferences.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>AI Generation</h3>
+                    <p>Our AI creates multiple poster concepts based on your brief, choosing layouts and visuals designed to convert.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Design Review</h3>
+                    <p>Our team reviews the AI designs for quality, brand fit, and marketing effectiveness.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Your Review & Feedback</h3>
+                    <p>You review the final designs. Love it? Ready to go. Want changes? We refine at no extra cost.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <h3>Final Delivery</h3>
+                    <p>High-resolution files delivered in all formats you need—web, social, print, and more.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section" id="pricing">
+            <h2 class="section-title">AI Poster Packages & Pricing</h2>
+            <p class="section-subtitle">Affordable, transparent pricing. All packages include unlimited revisions and all file formats.</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-name">Single Poster</div>
+                    <div class="pricing-price">₹599</div>
+                    <p class="pricing-desc">Perfect for one-off campaigns or testing.</p>
+                    <ul class="pricing-list">
+                        <li>1 custom poster design</li>
+                        <li>Multiple concepts</li>
+                        <li>Unlimited revisions</li>
+                        <li>All formats included</li>
+                        <li>High-res delivery</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-secondary">Order Single</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-tag">Best For Campaigns</div>
+                    <div class="pricing-name">Campaign Bundle</div>
+                    <div class="pricing-price">₹1,399</div>
+                    <p class="pricing-desc">Ideal for full marketing campaigns.</p>
+                    <ul class="pricing-list">
+                        <li>5 custom poster designs</li>
+                        <li>Consistent branding across all</li>
+                        <li>Multiple variations per design</li>
+                        <li>All sizes & formats</li>
+                        <li>Priority delivery</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-primary">Get Campaign Bundle</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-name">Monthly Pro Plan</div>
+                    <div class="pricing-price">₹1,999</div>
+                    <p class="pricing-desc">For businesses needing posters regularly.</p>
+                    <ul class="pricing-list">
+                        <li>Unlimited posters/month</li>
+                        <li>All variations & formats</li>
+                        <li>Brand consistency</li>
+                        <li>Priority support</li>
+                        <li>Quick turnarounds</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-secondary">Subscribe Monthly</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom CTA -->
+        <section class="bottom-cta">
+            <h2 class="section-title">Ready to Create Your First Poster?</h2>
+            <p>Stop spending money on expensive designers or struggling with DIY design tools. Let AI create professional marketing posters that convert in minutes.</p>
+            <a href="index.html#contact" class="btn btn-primary">Start Creating Posters Today</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 ZhilakX. AI Poster Creation Services. Crafted with ❤ to amplify your marketing impact.
+    </footer>
+
+    <script>
+        // Simple 3D background (similar vibe to main site)
+        let scene, camera, renderer, objects = [];
+
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 80;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x0a0e27, 0.9);
+            container.appendChild(renderer.domElement);
+
+            // Floating cubes
+            const geometry = new THREE.BoxGeometry(12, 12, 12);
+            const material = new THREE.MeshPhongMaterial({ color: 0x00d9ff });
+
+            for (let i = 0; i < 4; i++) {
+                const cube = new THREE.Mesh(geometry, material.clone());
+                cube.position.set(
+                    (Math.random() - 0.5) * 120,
+                    (Math.random() - 0.5) * 120,
+                    (Math.random() - 0.5) * 120
+                );
+                cube.userData.speed = {
+                    x: (Math.random() - 0.5) * 0.01,
+                    y: (Math.random() - 0.5) * 0.01
+                };
+                scene.add(cube);
+                objects.push(cube);
+            }
+
+            // Particles
+            const pointsGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            for (let i = 0; i < 250; i++) {
+                positions.push(
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 300
+                );
+            }
+            pointsGeometry.setAttribute(
+                'position',
+                new THREE.Float32BufferAttribute(positions, 3)
+            );
+            const pointsMaterial = new THREE.PointsMaterial({
+                color: 0x00d9ff,
+                size: 1.8,
+                transparent: true
+            });
+            const points = new THREE.Points(pointsGeometry, pointsMaterial);
+            scene.add(points);
+
+            // Lights
+            const light1 = new THREE.PointLight(0x00d9ff, 1, 400);
+            light1.position.set(0, 80, 80);
+            const light2 = new THREE.PointLight(0xff006e, 1, 400);
+            light2.position.set(60, -60, 80);
+            const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(light1, light2, ambient);
+
+            animate();
+            window.addEventListener('resize', onResize);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            objects.forEach(obj => {
+                obj.rotation.x += 0.005;
+                obj.rotation.y += 0.007;
+                obj.position.x += obj.userData.speed.x;
+                obj.position.y += obj.userData.speed.y;
+
+                const limit = 120;
+                if (obj.position.x > limit || obj.position.x < -limit) obj.userData.speed.x *= -1;
+                if (obj.position.y > limit || obj.position.y < -limit) obj.userData.speed.y *= -1;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('load', initThreeJS);
+    </script>
+</body>
+</html>

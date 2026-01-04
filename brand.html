@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Strategy Services - ZhilakX</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --color-bg: #0a0e27;
+            --color-surface: #1a1f3a;
+            --color-primary: #00d9ff;
+            --color-primary-hover: #00a8cc;
+            --color-accent: #ff006e;
+            --color-text: #e0e0e0;
+            --color-text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+        }
+
+        /* Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .back-home {
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Main */
+        main {
+            position: relative;
+            z-index: 10;
+            padding-top: 6rem;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 60vh;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 5rem 4rem 2rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 550px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.08);
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            border: 2px solid;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            border-color: var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 3rem 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 1.6rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(0, 217, 255, 0.25);
+        }
+
+        .service-icon {
+            font-size: 1.7rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .service-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .service-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Deliverables */
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .deliverable-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.4rem;
+        }
+
+        .deliverable-icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .deliverable-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        .deliverable-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        /* Benefits */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 1.6rem;
+        }
+
+        .benefit-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .benefit-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Who Benefits */
+        .who-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .who-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.4rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .who-card:hover {
+            border-color: var(--color-accent);
+            background: rgba(255, 0, 110, 0.08);
+        }
+
+        .who-icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .who-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        .who-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Process */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .process-step {
+            position: relative;
+            padding: 1.5rem 1.4rem 1.4rem 3.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 1.3rem;
+            width: 1.6rem;
+            height: 1.6rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .process-step h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
+        }
+
+        .process-step p {
+            color: var(--color-text-secondary);
+            font-size: 0.88rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            padding: 2rem 1.7rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--color-accent);
+            box-shadow: 0 20px 45px rgba(255, 0, 110, 0.35);
+        }
+
+        .pricing-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(255, 0, 110, 0.2);
+            color: var(--color-accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .pricing-price {
+            font-size: 1.6rem;
+            margin: 0.4rem 0;
+            color: var(--color-primary);
+        }
+
+        .pricing-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-list {
+            list-style: none;
+            margin: 0 0 1.5rem;
+            padding: 0;
+        }
+
+        .pricing-list li {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-list li::before {
+            content: "✓";
+            color: var(--color-primary);
+            margin-right: 0.4rem;
+        }
+
+        /* CTA */
+        .bottom-cta {
+            text-align: center;
+            padding: 4rem 2rem 5rem;
+        }
+
+        .bottom-cta p {
+            color: var(--color-text-secondary);
+            max-width: 520px;
+            margin: 0.7rem auto 1.8rem;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2.5rem 4rem;
+            text-align: center;
+            background: var(--color-bg);
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 4.5rem 2rem 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.4rem;
+            }
+
+            .section {
+                padding: 2.5rem 2rem;
+            }
+
+            nav {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            footer {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Nav -->
+    <nav>
+        <div class="logo">✨ ZhilakX</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <a href="index.html#services" class="back-home">← Back to Services</a>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Build a Brand That Stands Out & Converts</h1>
+                <p>Complete brand strategy and identity packages. From logo design and color palettes to brand guidelines and messaging—we create a cohesive visual and strategic foundation that makes your brand memorable, professional, and profitable.</p>
+                <div class="hero-badges">
+                    <span class="badge">🎯 Strategic approach</span>
+                    <span class="badge">🎨 Complete identity</span>
+                    <span class="badge">📋 Brand guidelines</span>
+                    <span class="badge">🚀 Built for growth</span>
+                </div>
+                <div class="hero-cta">
+                    <a href="index.html#contact" class="btn btn-primary">Start Brand Strategy</a>
+                    <a href="#pricing" class="btn btn-secondary">View Packages</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-card">
+                    <h3>Strategic Foundation</h3>
+                    <p>A strong brand strategy is more than just a logo. It's your positioning, story, values, and promise to your customers.</p>
+                </div>
+                <div class="hero-card">
+                    <h3>Competitive Advantage</h3>
+                    <p>In a crowded market, a well-defined brand strategy helps you attract the right customers and command premium pricing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="section" id="services">
+            <h2 class="section-title">Brand Strategy Services</h2>
+            <p class="section-subtitle">Everything you need to build a strong, cohesive brand that stands out and grows with you.</p>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h3>Brand Strategy & Positioning</h3>
+                    <p>We define your brand mission, values, unique positioning, target audience, and competitive advantages through research and discovery.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3>Logo Design</h3>
+                    <p>Custom, memorable logos that reflect your brand personality and work across all platforms—digital and print.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎭</div>
+                    <h3>Brand Identity & Visual Style</h3>
+                    <p>Complete visual identity including color palette, typography, imagery style, and design elements that make your brand recognizable.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">💬</div>
+                    <h3>Brand Messaging & Voice</h3>
+                    <p>Defined tone of voice, key messaging pillars, and copywriting guidelines that sound authentic and consistent across all touchpoints.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📖</div>
+                    <h3>Brand Guidelines Document</h3>
+                    <p>Comprehensive brand guidelines manual detailing logo usage, colors, fonts, imagery, tone, and do's/don'ts for consistency.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🏆</div>
+                    <h3>Brand Audit & Evolution</h3>
+                    <p>If you have an existing brand, we audit it, identify gaps, and evolve your branding to stay relevant and competitive.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>Digital Brand Assets</h3>
+                    <p>Web-ready logos, social media templates, email signatures, favicons, and all digital assets needed for online presence.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🖨️</div>
+                    <h3>Print Brand Assets</h3>
+                    <p>Business cards, letterheads, envelopes, packaging templates, and print-ready files for professional offline materials.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>Brand Launch Support</h3>
+                    <p>Help rolling out your new brand with rollout plans, communication strategies, and implementation across all channels.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliverables -->
+        <section class="section">
+            <h2 class="section-title">What You'll Get</h2>
+            <p class="section-subtitle">Complete brand packages with all the assets and documentation needed to launch and maintain your brand.</p>
+
+            <div class="deliverables-grid">
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">🎨</div>
+                    <h3>Logo Files</h3>
+                    <p>Primary logo, alternate versions, icon mark, and sub-logos in all formats (SVG, PNG, PDF, JPEG)</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">🎭</div>
+                    <h3>Color Palette</h3>
+                    <p>Primary, secondary, and accent colors with hex codes, RGB, CMYK, and Pantone references</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">✍️</div>
+                    <h3>Typography</h3>
+                    <p>Primary and secondary font families with sizing, weights, and usage guidelines</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">🖼️</div>
+                    <h3>Imagery Style</h3>
+                    <p>Photography and illustration guidelines defining your visual aesthetic and mood</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">💬</div>
+                    <h3>Brand Voice Guide</h3>
+                    <p>Tone definitions, key messaging, value propositions, and copywriting examples</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">📱</div>
+                    <h3>Digital Templates</h3>
+                    <p>Email templates, social media graphics, web headers, and digital asset library</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">🎯</div>
+                    <h3>Brand Strategy Document</h3>
+                    <p>Positioning, target audience, competitive analysis, and strategic recommendations</p>
+                </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">📋</div>
+                    <h3>Brand Guidelines Manual</h3>
+                    <p>50-100 page comprehensive guide covering all branding elements and usage rules</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="section">
+            <h2 class="section-title">Why Brand Strategy Matters</h2>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>💪 Stronger Market Position</h3>
+                    <p>A clear brand strategy helps you stand out in crowded markets. You become known for something specific and memorable.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🎯 Right Customer Attraction</h3>
+                    <p>When you're clear about who you are and what you stand for, you attract customers aligned with your values who become loyal advocates.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>💰 Premium Pricing Power</h3>
+                    <p>Strong, well-defined brands command higher prices. Customers are willing to pay more for brands they trust and recognize.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>📈 Faster Growth</h3>
+                    <p>Brand recognition accelerates growth. People remember you, refer you, and come back. Consistency drives exponential growth.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🔄 Team Alignment</h3>
+                    <p>Brand guidelines ensure everyone on your team—or external contractors—represents your brand consistently and professionally.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>🚀 Future-Proof Foundation</h3>
+                    <p>A strong brand strategy provides a foundation for growth. As you scale, your brand identity stays consistent and relevant.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who Benefits -->
+        <section class="section">
+            <h2 class="section-title">Perfect For Every Business Type</h2>
+            <p class="section-subtitle">Whether you're starting fresh or evolving an existing brand, brand strategy unlocks growth and credibility.</p>
+
+            <div class="who-benefits-grid">
+                <div class="who-card">
+                    <div class="who-icon">🚀</div>
+                    <h3>Startups</h3>
+                    <p>Build the right brand from day one to attract investors, customers, and talent</p>
+                </div>
+                <div class="who-card">
+                    <div class="who-icon">📈</div>
+                    <h3>Growing Businesses</h3>
+                    <p>Scale your brand as you grow to maintain consistency across all touchpoints</p>
+                </div>
+                <div class="who-card">
+                    <div class="who-icon">💼</div>
+                    <h3>Established Companies</h3>
+                    <p>Refresh and evolve your brand to stay relevant and competitive in changing markets</p>
+                </div>
+                <div class="who-card">
+                    <div class="who-icon">🎨</div>
+                    <h3>Creative Services</h3>
+                    <p>A strong personal or agency brand attracts premium clients and premium fees</p>
+                </div>
+                <div class="who-card">
+                    <div class="who-icon">🛍️</div>
+                    <h3>E-Commerce & Retail</h3>
+                    <p>Stand out in competitive markets with memorable branding that drives loyalty</p>
+                </div>
+                <div class="who-card">
+                    <div class="who-icon">🎬</div>
+                    <h3>Content Creators</h3>
+                    <p>Build a personal brand that commands sponsorships, collaborations, and monetization</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section" id="process">
+            <h2 class="section-title">Our Brand Strategy Process</h2>
+            <p class="section-subtitle">A comprehensive, collaborative approach that ensures your brand reflects your unique value and resonates with your audience.</p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Discovery & Research</h3>
+                    <p>We interview you, analyze your market, study competitors, and understand your audience deeply.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Strategy Development</h3>
+                    <p>We define your positioning, values, messaging pillars, and strategic direction based on research findings.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Visual Identity Design</h3>
+                    <p>We create logo concepts, define color palette, choose typography, and develop your visual style.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Your Review & Refinement</h3>
+                    <p>You review all designs and strategy. We iterate and refine based on your feedback until perfect.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <h3>Guidelines & Assets</h3>
+                    <p>We compile comprehensive brand guidelines, create all digital/print assets, and prepare for launch.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">6</div>
+                    <h3>Launch & Support</h3>
+                    <p>We support your brand launch and provide guidance on implementation across all channels.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section" id="pricing">
+            <h2 class="section-title">Brand Strategy Packages & Pricing</h2>
+            <p class="section-subtitle">Comprehensive packages designed for different business sizes and needs. All include strategy, design, and complete brand documentation.</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-name">Starter Identity</div>
+                    <div class="pricing-price">₹3000</div>
+                    <p class="pricing-desc">Essential branding for new businesses and personal brands.</p>
+                    <ul class="pricing-list">
+                        <li>Logo design (3 concepts)</li>
+                        <li>Color palette (3-4 colors)</li>
+                        <li>Typography selection</li>
+                        <li>Basic brand guidelines</li>
+                        <li>Digital assets (web)</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-secondary">Get Starter Identity</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-tag">Most Popular</div>
+                    <div class="pricing-name">Full Brand Strategy</div>
+                    <div class="pricing-price">₹7000</div>
+                    <p class="pricing-desc">Complete branding solution for growing businesses and startups.</p>
+                    <ul class="pricing-list">
+                        <li>Brand strategy document</li>
+                        <li>Logo design & variations</li>
+                        <li>Complete visual identity</li>
+                        <li>Brand voice & messaging</li>
+                        <li>Comprehensive guidelines (50+ pages)</li>
+                        <li>Digital & print assets</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-primary">Book Full Strategy</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-name">Premium Brand Package</div>
+                    <div class="pricing-price">₹10000</div>
+                    <p class="pricing-desc">Premium branding for established companies ready to elevate.</p>
+                    <ul class="pricing-list">
+                        <li>Deep market research</li>
+                        <li>Custom logo concepts (5+)</li>
+                        <li>Complete brand ecosystem</li>
+                        <li>Brand messaging playbook</li>
+                        <li>Extensive guidelines (100+ pages)</li>
+                        <li>All digital & print assets</li>
+                        <li>Launch support & training</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-secondary">Discuss Premium Package</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom CTA -->
+        <section class="bottom-cta">
+            <h2 class="section-title">Ready to Build a Brand That Lasts?</h2>
+            <p>Stop blending in. A strong brand strategy is your competitive advantage. Let's create a brand that attracts the right customers, commands premium value, and grows with you.</p>
+            <a href="index.html#contact" class="btn btn-primary">Start Your Brand Strategy Today</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 ZhilakX. Brand Strategy Services. Crafted with ❤ to build brands that matter.
+    </footer>
+
+    <script>
+        // Simple 3D background (similar vibe to main site)
+        let scene, camera, renderer, objects = [];
+
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 80;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x0a0e27, 0.9);
+            container.appendChild(renderer.domElement);
+
+            // Floating cubes
+            const geometry = new THREE.BoxGeometry(12, 12, 12);
+            const material = new THREE.MeshPhongMaterial({ color: 0x00d9ff });
+
+            for (let i = 0; i < 4; i++) {
+                const cube = new THREE.Mesh(geometry, material.clone());
+                cube.position.set(
+                    (Math.random() - 0.5) * 120,
+                    (Math.random() - 0.5) * 120,
+                    (Math.random() - 0.5) * 120
+                );
+                cube.userData.speed = {
+                    x: (Math.random() - 0.5) * 0.01,
+                    y: (Math.random() - 0.5) * 0.01
+                };
+                scene.add(cube);
+                objects.push(cube);
+            }
+
+            // Particles
+            const pointsGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            for (let i = 0; i < 250; i++) {
+                positions.push(
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 300
+                );
+            }
+            pointsGeometry.setAttribute(
+                'position',
+                new THREE.Float32BufferAttribute(positions, 3)
+            );
+            const pointsMaterial = new THREE.PointsMaterial({
+                color: 0x00d9ff,
+                size: 1.8,
+                transparent: true
+            });
+            const points = new THREE.Points(pointsGeometry, pointsMaterial);
+            scene.add(points);
+
+            // Lights
+            const light1 = new THREE.PointLight(0x00d9ff, 1, 400);
+            light1.position.set(0, 80, 80);
+            const light2 = new THREE.PointLight(0xff006e, 1, 400);
+            light2.position.set(60, -60, 80);
+            const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(light1, light2, ambient);
+
+            animate();
+            window.addEventListener('resize', onResize);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            objects.forEach(obj => {
+                obj.rotation.x += 0.005;
+                obj.rotation.y += 0.007;
+                obj.position.x += obj.userData.speed.x;
+                obj.position.y += obj.userData.speed.y;
+
+                const limit = 120;
+                if (obj.position.x > limit || obj.position.x < -limit) obj.userData.speed.x *= -1;
+                if (obj.position.y > limit || obj.position.y < -limit) obj.userData.speed.y *= -1;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('load', initThreeJS);
+    </script>
+</body>
+</html>

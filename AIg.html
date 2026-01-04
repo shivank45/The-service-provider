@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Generation Services - ZhilakX</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --color-bg: #0a0e27;
+            --color-surface: #1a1f3a;
+            --color-primary: #00d9ff;
+            --color-primary-hover: #00a8cc;
+            --color-accent: #ff006e;
+            --color-text: #e0e0e0;
+            --color-text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+        }
+
+        /* Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .back-home {
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Main */
+        main {
+            position: relative;
+            z-index: 10;
+            padding-top: 6rem;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 60vh;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 5rem 4rem 2rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 550px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(0, 217, 255, 0.4);
+            font-size: 0.8rem;
+            color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.08);
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            border: 2px solid;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            border-color: var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 3rem 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* Content Types */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 1.6rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            border-color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(0, 217, 255, 0.25);
+        }
+
+        .content-icon {
+            font-size: 1.7rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+        }
+
+        .content-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-card ul {
+            list-style: none;
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+        }
+
+        .content-card li {
+            margin-bottom: 0.4rem;
+        }
+
+        .content-card li::before {
+            content: "→ ";
+            color: var(--color-accent);
+            margin-right: 0.4rem;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--color-accent);
+            background: rgba(255, 0, 110, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .feature-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        .feature-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Why Section */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .why-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
+            padding: 1.6rem;
+        }
+
+        .why-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .why-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Process */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .process-step {
+            position: relative;
+            padding: 1.5rem 1.4rem 1.4rem 3.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 1.3rem;
+            width: 1.6rem;
+            height: 1.6rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .process-step h3 {
+            color: var(--color-primary);
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
+        }
+
+        .process-step p {
+            color: var(--color-text-secondary);
+            font-size: 0.88rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 217, 255, 0.25);
+            padding: 2rem 1.7rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--color-accent);
+            box-shadow: 0 20px 45px rgba(255, 0, 110, 0.35);
+        }
+
+        .pricing-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(255, 0, 110, 0.2);
+            color: var(--color-accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .pricing-price {
+            font-size: 1.6rem;
+            margin: 0.4rem 0;
+            color: var(--color-primary);
+        }
+
+        .pricing-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-list {
+            list-style: none;
+            margin: 0 0 1.5rem;
+            padding: 0;
+        }
+
+        .pricing-list li {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-list li::before {
+            content: "✓";
+            color: var(--color-primary);
+            margin-right: 0.4rem;
+        }
+
+        /* CTA */
+        .bottom-cta {
+            text-align: center;
+            padding: 4rem 2rem 5rem;
+        }
+
+        .bottom-cta p {
+            color: var(--color-text-secondary);
+            max-width: 520px;
+            margin: 0.7rem auto 1.8rem;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2.5rem 4rem;
+            text-align: center;
+            background: var(--color-bg);
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 4.5rem 2rem 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.4rem;
+            }
+
+            .section {
+                padding: 2.5rem 2rem;
+            }
+
+            nav {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            footer {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Nav -->
+    <nav>
+        <div class="logo">✨ ZhilakX</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#content">Content Types</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+        </ul>
+        <a href="index.html#services" class="back-home">← Back to Services</a>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>AI‑Powered Content Generation That Saves You Hours</h1>
+                <p>High‑quality, SEO‑optimized content created by advanced AI models. Blog posts, social media captions, video scripts, product descriptions, and more—delivered fast and customized to your brand voice.</p>
+                <div class="hero-badges">
+                    <span class="badge">⚡ 10x faster content creation</span>
+                    <span class="badge">📝 SEO‑optimized by default</span>
+                    <span class="badge">🎯 Brand voice customization</span>
+                    <span class="badge">♻️ Unlimited revisions</span>
+                </div>
+                <div class="hero-cta">
+                    <a href="index.html#contact" class="btn btn-primary">Request Content Now</a>
+                    <a href="#pricing" class="btn btn-secondary">View Packages</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-card">
+                    <h3>Speed Meets Quality</h3>
+                    <p>Generate weeks of content in hours. Our AI models are trained on best practices for conversions, readability, and engagement across all platforms.</p>
+                </div>
+                <div class="hero-card">
+                    <h3>Fully Customizable</h3>
+                    <p>Share your tone, target audience, keywords, and style preferences. We fine-tune every piece to match your brand perfectly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Types -->
+        <section class="section" id="content">
+            <h2 class="section-title">Content We Create</h2>
+            <p class="section-subtitle">A wide range of content formats powered by AI, customized for your brand and goals. All content is edited, reviewed, and optimized before delivery.</p>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="content-icon">📝</div>
+                    <h3>Blog Posts & Articles</h3>
+                    <p>Long‑form, SEO‑optimized blog posts that rank and convert. Topics researched and written for your niche.</p>
+                    <ul>
+                        <li>1000-3000 word articles</li>
+                        <li>Keyword‑optimized</li>
+                        <li>Citations & sources</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-icon">🎬</div>
+                    <h3>Video Scripts & Outlines</h3>
+                    <p>Engaging video scripts for YouTube, TikTok, Reels, and more. Hook, main content, and CTA included.</p>
+                    <ul>
+                        <li>Short-form (30-60s)</li>
+                        <li>Long-form (10+ min)</li>
+                        <li>Hooks & transitions</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-icon">💬</div>
+                    <h3>Social Media Content</h3>
+                    <p>Platform‑specific captions, tweets, Instagram posts, and LinkedIn content tailored for maximum engagement.</p>
+                    <ul>
+                        <li>Hashtag strategies</li>
+                        <li>Call‑to‑actions</li>
+                        <li>Emoji optimization</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-icon">🏷️</div>
+                    <h3>Product Descriptions</h3>
+                    <p>Compelling product descriptions that highlight benefits, features, and unique selling points to drive conversions.</p>
+                    <ul>
+                        <li>E-commerce optimized</li>
+                        <li>Feature-to-benefit focus</li>
+                        <li>Trust-building language</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-icon">✍️</div>
+                    <h3>Email Campaigns</h3>
+                    <p>Email sequences, newsletters, and promotional content designed to engage, nurture, and convert subscribers.</p>
+                    <ul>
+                        <li>Subject line optimization</li>
+                        <li>A/B testing variants</li>
+                        <li>Segmented messaging</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <div class="content-icon">🎯</div>
+                    <h3>Ad Copy & Landing Pages</h3>
+                    <p>High‑converting ad copy for Google, Facebook, and LinkedIn. Landing page copy designed to drive action.</p>
+                    <ul>
+                        <li>CTA optimization</li>
+                        <li>Pain-point focus</li>
+                        <li>Urgency & scarcity</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section">
+            <h2 class="section-title">Why Our AI Content Wins</h2>
+            <p class="section-subtitle">We don't just generate content—we create strategic, engaging, conversion-focused pieces that serve your business goals.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Smart Research</h3>
+                    <p>AI researches your topic deeply, pulls credible sources, and incorporates current trends and data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>SEO Built-In</h3>
+                    <p>Every piece is optimized for search engines with natural keyword inclusion and semantic structure.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Brand Voice</h3>
+                    <p>Consistent tone, style, and messaging across all pieces that match your brand personality.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Turnaround</h3>
+                    <p>Most orders completed within 24-48 hours. Get content that works without the long wait.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Conversion-Focused</h3>
+                    <p>Every piece is written to achieve specific goals—clicks, shares, sales, or sign-ups.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">♻️</div>
+                    <h3>Unlimited Edits</h3>
+                    <p>Not perfect? We revise until it's exactly what you need, no additional cost.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose -->
+        <section class="section">
+            <h2 class="section-title">Benefits of AI Content for Your Business</h2>
+
+            <div class="why-grid">
+                <div class="why-card">
+                    <h3>💰 Cost Effective</h3>
+                    <p>Get professional-quality content at a fraction of hiring a full-time copywriter or agency. Scale your content production without scaling costs.</p>
+                </div>
+                <div class="why-card">
+                    <h3>⏱️ Time Freedom</h3>
+                    <p>Stop spending hours writing. Let AI handle the heavy lifting while you focus on strategy, business growth, and customer relationships.</p>
+                </div>
+                <div class="why-card">
+                    <h3>📈 Consistency</h3>
+                    <p>Publish consistently and never run out of ideas. Regular content = better SEO, more engagement, and stronger brand presence.</p>
+                </div>
+                <div class="why-card">
+                    <h3>🔄 Easy Scaling</h3>
+                    <p>Need 10 blog posts or 50 social posts? AI scales with you. Grow your content without growing your team.</p>
+                </div>
+                <div class="why-card">
+                    <h3>🎯 Data-Driven</h3>
+                    <p>AI learns from your best-performing content and creates more pieces optimized for engagement and conversions.</p>
+                </div>
+                <div class="why-card">
+                    <h3>🚀 Competitive Edge</h3>
+                    <p>Stay ahead of competitors by publishing more, better, and faster. AI content helps you dominate search rankings and social feeds.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section" id="process">
+            <h2 class="section-title">Our Content Creation Process</h2>
+            <p class="section-subtitle">A streamlined workflow that ensures quality, brand consistency, and perfect alignment with your goals.</p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Brief & Strategy</h3>
+                    <p>Tell us your goals, target audience, tone, keywords, and any specific requirements. The more details, the better.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>AI Generation</h3>
+                    <p>Our advanced AI models create initial content based on your brief, researching topics and optimizing for your goals.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Human Review</h3>
+                    <p>Our editors review, fact-check, and refine the AI content for quality, accuracy, and brand voice alignment.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>SEO Optimization</h3>
+                    <p>We fine-tune keywords, meta descriptions, headings, and structure for search engine visibility.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <h3>Your Review</h3>
+                    <p>You review the final content. Want changes? We revise at no extra cost until it's perfect.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section" id="pricing">
+            <h2 class="section-title">AI Content Packages & Pricing</h2>
+            <p class="section-subtitle">Flexible pricing for businesses of all sizes. All packages include revisions, SEO optimization, and brand voice customization.</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-name">Starter Pack</div>
+                    <div class="pricing-price">₹1,999</div>
+                    <p class="pricing-desc">Perfect for small businesses and creators just starting.</p>
+                    <ul class="pricing-list">
+                        <li>3-5 blog posts (500 words each)</li>
+                        <li>OR 10-15 social media captions</li>
+                        <li>OR 1 complete video script</li>
+                        <li>SEO optimization included</li>
+                        <li>Unlimited revisions</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-secondary">Start Starter Pack</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-tag">Most Popular</div>
+                    <div class="pricing-name">Creator Plan</div>
+                    <div class="pricing-price">₹3,999</div>
+                    <p class="pricing-desc">Ideal for content creators and growing brands.</p>
+                    <ul class="pricing-list">
+                        <li>10 blog posts (1000+ words)</li>
+                        <li>30 social media posts</li>
+                        <li>4 video scripts</li>
+                        <li>2 email campaigns</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-primary">Book Creator Plan</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-name">Business Hub</div>
+                    <div class="pricing-price">₹8,999</div>
+                    <p class="pricing-desc">For agencies, larger businesses, and high-volume needs.</p>
+                    <ul class="pricing-list">
+                        <li>Unlimited blog posts</li>
+                        <li>100+ social captions/month</li>
+                        <li>10+ video scripts</li>
+                        <li>Product descriptions</li>
+                        <li>Ad copy & landing pages</li>
+                    </ul>
+                    <a href="index.html#contact" class="btn btn-secondary">Discuss Business Plan</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom CTA -->
+        <section class="bottom-cta">
+            <h2 class="section-title">Ready to Supercharge Your Content?</h2>
+            <p>Stop struggling to find time to create content. Let AI handle the writing while you focus on strategy, growth, and connecting with your audience.</p>
+            <a href="index.html#contact" class="btn btn-primary">Get Started with AI Content</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 ZhilakX. AI Content Generation Services. Crafted with ❤ to fuel your content strategy.
+    </footer>
+
+    <script>
+        // Simple 3D background (similar vibe to main site)
+        let scene, camera, renderer, objects = [];
+
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 80;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x0a0e27, 0.9);
+            container.appendChild(renderer.domElement);
+
+            // Floating cubes
+            const geometry = new THREE.BoxGeometry(12, 12, 12);
+            const material = new THREE.MeshPhongMaterial({ color: 0x00d9ff });
+
+            for (let i = 0; i < 4; i++) {
+                const cube = new THREE.Mesh(geometry, material.clone());
+                cube.position.set(
+                    (Math.random() - 0.5) * 120,
+                    (Math.random() - 0.5) * 120,
+                    (Math.random() - 0.5) * 120
+                );
+                cube.userData.speed = {
+                    x: (Math.random() - 0.5) * 0.01,
+                    y: (Math.random() - 0.5) * 0.01
+                };
+                scene.add(cube);
+                objects.push(cube);
+            }
+
+            // Particles
+            const pointsGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            for (let i = 0; i < 250; i++) {
+                positions.push(
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 300,
+                    (Math.random() - 0.5) * 300
+                );
+            }
+            pointsGeometry.setAttribute(
+                'position',
+                new THREE.Float32BufferAttribute(positions, 3)
+            );
+            const pointsMaterial = new THREE.PointsMaterial({
+                color: 0x00d9ff,
+                size: 1.8,
+                transparent: true
+            });
+            const points = new THREE.Points(pointsGeometry, pointsMaterial);
+            scene.add(points);
+
+            // Lights
+            const light1 = new THREE.PointLight(0x00d9ff, 1, 400);
+            light1.position.set(0, 80, 80);
+            const light2 = new THREE.PointLight(0xff006e, 1, 400);
+            light2.position.set(60, -60, 80);
+            const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(light1, light2, ambient);
+
+            animate();
+            window.addEventListener('resize', onResize);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            objects.forEach(obj => {
+                obj.rotation.x += 0.005;
+                obj.rotation.y += 0.007;
+                obj.position.x += obj.userData.speed.x;
+                obj.position.y += obj.userData.speed.y;
+
+                const limit = 120;
+                if (obj.position.x > limit || obj.position.x < -limit) obj.userData.speed.x *= -1;
+                if (obj.position.y > limit || obj.position.y < -limit) obj.userData.speed.y *= -1;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('load', initThreeJS);
+    </script>
+</body>
+</html>
